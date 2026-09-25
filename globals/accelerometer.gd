@@ -1,10 +1,9 @@
+# singleton for accessing accelerometer data
 extends Node
 
-signal accelerometer_updated(data: Vector3)
-
-@export var label:Label
+signal updated(data: Vector3)
 var is_initialized: bool = false
-var accelerometer_data: Vector3 = Vector3.ZERO
+var data: Vector3 = Vector3.ZERO
 
 func _ready():
 	if OS.has_feature("web"):
@@ -29,6 +28,5 @@ func _process(_delta: float):
 			var new_y = float(js_data.y)
 			var new_z = float(js_data.z)
 			
-			accelerometer_data = Vector3(new_x, new_y, new_z)
-			label.text = str(accelerometer_data)
-			accelerometer_updated.emit(accelerometer_data)
+			data = Vector3(new_x, new_y, new_z)
+			updated.emit(data)
