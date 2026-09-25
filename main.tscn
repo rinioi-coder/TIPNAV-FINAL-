@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://cfkb8y1mpcos2"]
 
+[ext_resource type="Script" uid="uid://dh7fvwc6yqvyf" path="res://pdr.gd" id="1_ig7tw"]
+
 [node name="Main" type="Node" unique_id=1649254548]
+script = ExtResource("1_ig7tw")
 
 [node name="Ui" type="Control" parent="." unique_id=1762042228]
 layout_mode = 3
@@ -16,6 +19,7 @@ anchor_left = 0.09583333
 anchor_top = 0.180625
 anchor_right = 0.9305556
 anchor_bottom = 0.4925
+script = ExtResource("1_ig7tw")
 metadata/_edit_use_anchors_ = true
 
 [node name="Panel" type="Panel" parent="Ui/container" unique_id=1124957435]

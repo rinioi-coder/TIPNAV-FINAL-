@@ -92,7 +92,64 @@ body {
 		</style>
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+<script>
+  window.accelerometerData = { x: 0, y: 0, z: 0 };
+window.isAccelActive = false;
 
+async function requestAccelerometerPermission() {
+  // Check for iOS 13+ DeviceMotionEvent permission requirement
+  if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+    try {
+      const response = await DeviceMotionEvent.requestPermission();
+      if (response === 'granted') {
+        startDeviceMotion();
+        return true;
+      } else {
+        console.warn('Accelerometer permission denied by user.');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error requesting permission:', error);
+      return false;
+    }
+  } 
+  // Modern Sensor API (Chromium-based browsers)
+  else if ('Accelerometer' in window) {
+    try {
+      const acl = new Accelerometer({ frequency: 60 });
+      acl.addEventListener('reading', () => {
+        window.accelerometerData.x = acl.x;
+        window.accelerometerData.y = acl.y;
+        window.accelerometerData.z = acl.z;
+      });
+      acl.start();
+      window.isAccelActive = true;
+      return true;
+    } catch (error) {
+      console.error('Accelerometer error:', error);
+      // Fall back to devicemotion if Generic Sensors fail
+      startDeviceMotion();
+      return true;
+    }
+  } 
+  // Standard devicemotion fallback (Android Chrome, legacy browsers)
+  else {
+    startDeviceMotion();
+    return true;
+  }
+}
+
+function startDeviceMotion() {
+  window.addEventListener('devicemotion', (event) => {
+    if (event.accelerationIncludingGravity) {
+      window.accelerometerData.x = event.accelerationIncludingGravity.x || 0;
+      window.accelerometerData.y = event.accelerationIncludingGravity.y || 0;
+      window.accelerometerData.z = event.accelerationIncludingGravity.z || 0;
+    }
+  });
+  window.isAccelActive = true;
+}
+</script>
 	</head>
 	<body>
 		<canvas id="canvas">
@@ -111,7 +168,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":32500,"index.wasm":37896978},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":33060,"index.wasm":37896978},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
