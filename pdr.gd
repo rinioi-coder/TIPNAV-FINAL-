@@ -1,5 +1,7 @@
 extends Node
 
+@export var label:Label
+
 func _ready():
 	if OS.has_feature("web"):
 		_inject_accelerometer_js()
@@ -62,6 +64,8 @@ func _on_enable_sensors_button_pressed():
 		JavaScriptBridge.eval("window.requestAccelerometerPermission();")
 
 func _process(_delta):
+	if not label: return
+	
 	if OS.has_feature("web"):
 		var window = JavaScriptBridge.get_interface("window")
 		if window and window.accelerometerData:
@@ -71,5 +75,6 @@ func _process(_delta):
 			var z = float(js_data.z)
 			var accel_vector = Vector3(x, y, z)
 			
+			label.text = str(accel_vector)
 			# Print to browser console and Godot debug output
 			print("Accel: ", accel_vector)

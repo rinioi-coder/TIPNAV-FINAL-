@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dh7fvwc6yqvyf" path="res://pdr.gd" id="1_ig7tw"]
 
-[node name="Main" type="Node" unique_id=1649254548]
+[node name="Main" type="Node" unique_id=1649254548 node_paths=PackedStringArray("label")]
 script = ExtResource("1_ig7tw")
+label = NodePath("Ui/Label")
 
 [node name="Ui" type="Control" parent="." unique_id=1762042228]
 layout_mode = 3
