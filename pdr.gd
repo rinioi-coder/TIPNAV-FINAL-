@@ -25,5 +25,5 @@ func _process(delta: float) -> void:
 		
 		if accel_data:
 			var accel = Vector3(accel_data.x,accel_data.y,accel_data.z)
-			
+			$Ui/Label.text = str(accel)
 			print(accel)
