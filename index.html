@@ -161,7 +161,7 @@ body {
 
   window.bindDeviceMotion = function() {
     window.addEventListener('devicemotion', (event) => {
-      const accel = event.accelerationIncludingGravity || event.acceleration;
+      const accel = event.acceleration || event.accelerationIncludingGravity;
       if (accel) {
         window.accelerometerData.x = accel.x || 0;
         window.accelerometerData.y = accel.y || 0;
