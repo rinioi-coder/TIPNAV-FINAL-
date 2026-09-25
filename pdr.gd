@@ -1,80 +1,34 @@
 extends Node
 
+signal accelerometer_updated(data: Vector3)
+
 @export var label:Label
+var is_initialized: bool = false
+var accelerometer_data: Vector3 = Vector3.ZERO
 
 func _ready():
 	if OS.has_feature("web"):
-		_inject_accelerometer_js()
+		# Attempt initial JS check
+		JavaScriptBridge.eval("if (window.initAccelerometer) { window.initAccelerometer(); }")
 
-func _inject_accelerometer_js():
-	var js_code = """
-	window.accelerometerData = { x: 0, y: 0, z: 0 };
-	window.isAccelActive = false;
+func _unhandled_input(event: InputEvent):
+	# Required for iOS Safari: Call init on first touch/click event frame
+	if not is_initialized and (event is InputEventScreenTouch or event is InputEventMouseButton):
+		if event.pressed:
+			is_initialized = true
+			if OS.has_feature("web"):
+				JavaScriptBridge.eval("window.initAccelerometer();")
 
-	window.requestAccelerometerPermission = async function() {
-		if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-			try {
-				const response = await DeviceMotionEvent.requestPermission();
-				if (response === 'granted') {
-					window.startDeviceMotion();
-					return true;
-				}
-				return false;
-			} catch (error) {
-				console.error('Permission error:', error);
-				return false;
-			}
-		} else if ('Accelerometer' in window) {
-			try {
-				const acl = new Accelerometer({ frequency: 60 });
-				acl.addEventListener('reading', () => {
-					window.accelerometerData.x = acl.x || 0;
-					window.accelerometerData.y = acl.y || 0;
-					window.accelerometerData.z = acl.z || 0;
-				});
-				acl.start();
-				window.isAccelActive = true;
-				return true;
-			} catch (error) {
-				window.startDeviceMotion();
-				return true;
-			}
-		} else {
-			window.startDeviceMotion();
-			return true;
-		}
-	};
-
-	window.startDeviceMotion = function() {
-		window.addEventListener('devicemotion', (event) => {
-			if (event.accelerationIncludingGravity) {
-				window.accelerometerData.x = event.accelerationIncludingGravity.x || 0;
-				window.accelerometerData.y = event.accelerationIncludingGravity.y || 0;
-				window.accelerometerData.z = event.accelerationIncludingGravity.z || 0;
-			}
-		});
-		window.isAccelActive = true;
-	};
-	"""
-	JavaScriptBridge.eval(js_code)
-
-# Connect this to your UI Button signal (e.g., pressed)
-func _on_enable_sensors_button_pressed():
-	if OS.has_feature("web"):
-		JavaScriptBridge.eval("window.requestAccelerometerPermission();")
-
-func _process(_delta):
-	if not label: return
-	
+func _process(_delta: float):
 	if OS.has_feature("web"):
 		var window = JavaScriptBridge.get_interface("window")
 		if window and window.accelerometerData:
 			var js_data = window.accelerometerData
-			var x = float(js_data.x)
-			var y = float(js_data.y)
-			var z = float(js_data.z)
-			var accel_vector = Vector3(x, y, z)
 			
-			label.text = str(accel_vector)
-			# Print to browser console and Godot debug output
-			print("Accel: ", accel_vector)
+			var new_x = float(js_data.x)
+			var new_y = float(js_data.y)
+			var new_z = float(js_data.z)
+			
+			accelerometer_data = Vector3(new_x, new_y, new_z)
+			label.text = str(accelerometer_data)
+			accelerometer_updated.emit(accelerometer_data)
