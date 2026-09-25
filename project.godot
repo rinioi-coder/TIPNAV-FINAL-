@@ -11,13 +11,21 @@ config_version=5
 [application]
 
 config/name="TIPNAV"
+run/main_scene="uid://cfkb8y1mpcos2"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Pdr="*uid://dh7fvwc6yqvyf"
+
 [display]
 
-window/stretch/mode="canvas_items"
+window/size/viewport_width=720
+window/size/viewport_height=1600
+window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [physics]
 

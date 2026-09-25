@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cfkb8y1mpcos2"]
+
+[node name="Main" type="Node" unique_id=1649254548]
+
+[node name="Ui" type="Control" parent="." unique_id=1762042228]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="container" type="Control" parent="Ui" unique_id=1580331145]
+anchors_preset = 0
+anchor_left = 0.09583333
+anchor_top = 0.180625
+anchor_right = 0.9305556
+anchor_bottom = 0.4925
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="Ui/container" unique_id=1124957435]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
