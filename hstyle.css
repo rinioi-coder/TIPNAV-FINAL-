@@ -956,20 +956,3 @@ body {
   line-height: 1.35;
 }
 
-/* ==========================================================
-   SPA VIEW DISPLAY LOGIC
-   ========================================================== */
-.app-view {
-  display: none;
-  width: 100%;
-}
-
-.app-view.active {
-  display: block;
-}
-
-/* Ensure map screen fits within the SPA container */
-#viewMap .map-screen-container {
-  height: 844px;
-  max-height: 90vh;
-}
