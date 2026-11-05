@@ -21,9 +21,11 @@ Accelerometer="*uid://dh7fvwc6yqvyf"
 
 [display]
 
-window/size/viewport_width=720
-window/size/viewport_height=1600
-window/stretch/mode="viewport"
+window/size/viewport_width=414
+window/size/viewport_height=896
+window/size/window_width_override=300
+window/size/window_height_override=650
+window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
