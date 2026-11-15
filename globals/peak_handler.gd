@@ -132,16 +132,14 @@ func find(buffer:Array):
 			var slopes = calc_lin_regr(temp_peak_data)
 			var rising_slope = slopes[0]
 			var falling_slope = slopes[1]
-			
-			if (rising_slope > settings.max_rising_slope
-			or rising_slope < settings.min_rising_slope):
-				reset_temp()
-				return
-			
-			if (falling_slope > settings.max_falling_slope
-			or falling_slope < settings.min_falling_slope):
-				reset_temp()
-				return
+			#if (rising_slope > settings.max_rising_slope
+			#or rising_slope < settings.min_rising_slope):
+				#reset_temp()
+				#return
+			#if (falling_slope > settings.max_falling_slope
+			#or falling_slope < settings.min_falling_slope):
+				#reset_temp()
+				#return
 			
 			# once set is completed (negative valley, peak, positive valley)
 			# validate, then reset temporary data to repeat cycle
