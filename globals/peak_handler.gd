@@ -8,10 +8,10 @@ var settings:Dictionary =  {
 	"min_step_duration":300,
 	
 	# max and min slope for rising and falling of data
-	"max_rising_slope":1,
-	"min_rising_slope":0.2,
-	"max_falling_slope":-1,
-	"min_falling_slope":-0.2,
+	"max_rising_slope":5,
+	"min_rising_slope":0,
+	"max_falling_slope":-5,
+	"min_falling_slope":-0,
 	
 	# max difference between neg and pos valley
 	"max_valley_diff":0.5,
