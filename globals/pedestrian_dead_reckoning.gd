@@ -13,24 +13,30 @@ extends Node
 	#"acc":Accelerometer.data,
 	#"acc_magn":Accelerometer.data_magn,
 	#"acc_magn_smooth":Accelerometer.data_magn_smooth,
-	#
+	
+	#"heading":Magnetometer.heading,
+	#"heading_smooth":Magnetometer.heading_smooth,
+	
 	#"gyro":Gyroscope.data,
 	#"gyro_magn":Gyroscope.data_magn,
 	#"gyro_magn_smooth":Gyroscope.data_magn_smooth,
 	#}
 
-# peak data structure
+# step data structure
 #{
 	#"data":[ array of multiple data points ],
-	#"peak_index":int
+	#"peak_index":int,
+	#"peak_time":float,
+	#"length":float,
+	#"heading":float,
 #}
 
 #	----------	SETTINGS	----------
 var sampling_rate:int = 100
-var max_steps_buffer_size:int = 10
+var steps_buffer_size:int = 20
 
 #	-----------	SIGNALS	----------
-signal step_occured(step_data:Dictionary,step_length:float)
+signal step_occured(step_data:Dictionary)
 
 #	-----------	VARIABLES	----------
 
@@ -74,6 +80,9 @@ func _process(delta: float) -> void:
 			"acc_magn_lerped":Accelerometer.data_magn_lerped,
 			"acc_magn_smooth":Accelerometer.data_magn_smooth,
 			
+			"heading":Magnetometer.heading,
+			"heading_smooth":Magnetometer.heading_smooth,
+			
 			"gyro":Gyroscope.data,
 			"gyro_magn":Gyroscope.data_magn,
 			"gyro_magn_lerped":Gyroscope.data_magn_lerped,
@@ -86,19 +95,17 @@ func _process(delta: float) -> void:
 		prev_acc_timestamp = Accelerometer.data_timestamp
 		prev_gyro_timestamp = Gyroscope.data_timestamp
 		
-		# find peaks
-		var step = PeakHandler.find(buffer)
+		# find steps
+		var step = StepDetection.find(buffer)
 		
 		if step != null:
-			# calculate step length
-			var step_length = StepHandler.calculate_step(step)
-			
-			# emit stepped signal
-			if step_length:
-				step_occured.emit(step,step_length)
+			step_occured.emit(step)
+			steps_buffer.append(step)
+			if not steps_buffer.size() > steps_buffer_size: 
+				AdaptiveDetectionParameters.update_parameters()
 		
 		# clean steps buffer
-		if steps_buffer.size() > max_steps_buffer_size:
+		if steps_buffer.size() > steps_buffer_size:
 			steps_buffer.pop_front()
 		
 		# clean buffer

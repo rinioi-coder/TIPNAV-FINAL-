@@ -2,7 +2,7 @@
 extends Node
 
 # settings
-var lerp_weight:float = 0.2
+var lerp_weight:float = 0.1
 var window_size:int = 11
 var polynomial:int = 2
 
@@ -34,7 +34,6 @@ func _unhandled_input(event: InputEvent):
 			if OS.has_feature("web"):
 				JavaScriptBridge.eval("window.initAccelerometer();")
 
-var timer:float = 0.0
 func _process(_delta: float):
 	
 	# get data
@@ -50,8 +49,6 @@ func _process(_delta: float):
 			
 			data_timestamp = timestamp
 			data = Vector3(new_x, new_y, new_z)
-	else:
-		data = Input.get_accelerometer()
 	
 	# update other data type
 	data_magn = data.length()

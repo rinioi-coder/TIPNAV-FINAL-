@@ -8,7 +8,7 @@ var k = 0.48
 #	----------	FUNCTIONS	----------
 
 # calculate step length
-func calculate_step(step_data:Dictionary):
+func calculate(step_data:Dictionary):
 	if step_data.is_empty(): return
 	
 	# estimate step length
