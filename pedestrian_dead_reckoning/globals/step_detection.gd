@@ -9,9 +9,9 @@ var settings:Dictionary =  {
 	
 	# max and min slope for rising and falling of data
 	"max_rising_slope":100,
-	"min_rising_slope":1.5,
+	"min_rising_slope":1,
 	"max_falling_slope":-100,
-	"min_falling_slope":-1.5,
+	"min_falling_slope":-1,
 	
 	# max difference between neg and pos valley
 	"max_valley_diff":50,
@@ -152,7 +152,7 @@ func find(buffer:Array):
 				return
 			
 			# calculate heading
-			temp_peak_data.heading = temp_peak_data.data[0].heading - temp_peak_data.data[temp_peak_data.data.size() - 1].heading
+			temp_peak_data.heading = StepHeading.calculate(temp_peak_data)
 			
 			# calculate step length
 			temp_peak_data.length = StepLength.calculate(temp_peak_data)

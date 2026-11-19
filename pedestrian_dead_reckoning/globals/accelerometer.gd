@@ -3,7 +3,7 @@ extends Node
 
 # settings
 var lerp_weight:float = 0.1
-var window_size:int = 15
+var window_size:int = 19
 var polynomial:int = 2
 
 # flags 
