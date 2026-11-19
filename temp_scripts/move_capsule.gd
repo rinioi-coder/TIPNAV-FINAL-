@@ -11,7 +11,7 @@ func _ready() -> void:
 # update target position
 func step_occured(step:Dictionary):
 	var added_pos = Vector3(step.length*cos(deg_to_rad(step.heading)),0,step.length*sin(deg_to_rad(step.heading)))
-	target_pos = added_pos
+	target_pos = target_pos + added_pos
 
 # lerp to target position
 func _process(delta: float) -> void:

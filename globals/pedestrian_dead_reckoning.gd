@@ -61,7 +61,7 @@ func _process(delta: float) -> void:
 	
 	# execute according to sampling rate
 	accumulator += delta
-	while  accumulator >= sampling_interval:
+	while accumulator >= sampling_interval:
 		accumulator -= sampling_interval
 		
 		# check data timestamp
@@ -102,54 +102,14 @@ func _process(delta: float) -> void:
 			# emit signal & record step
 			step_occured.emit(step)
 			steps_buffer.append(step)
-<<<<<<< Updated upstream
-			if not steps_buffer.size() > steps_buffer_size: 
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-			if not steps_buffer.size() > steps_buffer_size: 
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 			
 			# clean steps buffer
 			if steps_buffer.size() > steps_buffer_size:
 				steps_buffer.pop_front()
 			
-			# update parameters
-			AdaptiveDetectionParameters.update_parameters()
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+			# update parameters once the buffer is full
 			if steps_buffer.size() >= steps_buffer_size:
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-=======
-=======
-			if steps_buffer.size() >= steps_buffer_size:
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 				AdaptiveDetectionParameters.update_parameters()
-		
-		# clean steps buffer
-		if steps_buffer.size() > steps_buffer_size:
-			steps_buffer.pop_front()
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-=======
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 		
 		# clean buffer
 		if buffer.size() > 3:
