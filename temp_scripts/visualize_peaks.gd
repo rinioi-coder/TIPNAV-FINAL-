@@ -3,7 +3,7 @@ extends Node
 
 # settings
 var line_height_mult:int = 20
-var buffer_size:int = 200
+var buffer_size:int = 100
 var data_raw_color:Color = Color.RED
 var data_smooth_color:Color = Color.GREEN
 var data_lerped_color:Color = Color.BLUE

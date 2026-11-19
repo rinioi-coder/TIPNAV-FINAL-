@@ -28,7 +28,7 @@ extends Node
 	#"peak_index":int,
 	#"peak_time":float,
 	#"length":float,
-	#"heading":float,
+	#"heading":float, -- in degrees
 #}
 
 #	----------	SETTINGS	----------
@@ -107,9 +107,12 @@ func _process(delta: float) -> void:
 =======
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 			if not steps_buffer.size() > steps_buffer_size: 
 =======
 <<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 			
@@ -120,6 +123,12 @@ func _process(delta: float) -> void:
 			# update parameters
 			AdaptiveDetectionParameters.update_parameters()
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+			if steps_buffer.size() >= steps_buffer_size:
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+=======
 =======
 			if steps_buffer.size() >= steps_buffer_size:
 >>>>>>> Stashed changes
@@ -132,10 +141,13 @@ func _process(delta: float) -> void:
 <<<<<<< Updated upstream
 =======
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> Stashed changes
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
 		

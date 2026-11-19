@@ -1,9 +1,9 @@
 # singleton for step detection adaptive parameter calculations
 extends Node
 
-# settings
-var window_ratio:float = .2
+# --- settings ---
 
+<<<<<<< Updated upstream
 # calculate new parameter values
 # based on recent data
 func update_parameters():
@@ -12,8 +12,11 @@ func update_parameters():
 =======
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	if PedestrianDeadReckoning.steps_buffer.size() < PedestrianDeadReckoning.steps_buffer_size: return
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 	var steps:Array = PedestrianDeadReckoning.steps_buffer
@@ -22,6 +25,9 @@ func update_parameters():
 	# wait until the steps buffer is full
 	if count < PedestrianDeadReckoning.steps_buffer_size: return
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 # +/- window around the measured averages (wider = more tolerant to pace changes)
 var window_ratio:float = 1
@@ -91,21 +97,22 @@ func update_parameters() -> void:
 	_is_at_defaults = false
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
+<<<<<<< Updated upstream
 =======
 >>>>>>> Stashed changes
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 	
 	# initialize temporary values
 	var ave_step_duration:float = 0.0
-	
 	var ave_peak_valley_difference:float = 0.0
 	var ave_valley_difference:float = 0.0
-	
 	var ave_rising_slope:float = 0.0
 	var ave_falling_slope:float = 0.0
-	
 	var ave_time_between_peaks:float = 0.0
 	
+<<<<<<< Updated upstream
 	# calculate parameters
 	for i in range(count):
 		var step = steps[i]
@@ -121,8 +128,11 @@ func update_parameters() -> void:
 =======
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		ave_valley_difference += abs(step.data[0].acc_magn_lerped - step.data[step.data.size() - 1].acc_magn_lerped)
 =======
+=======
+>>>>>>> Stashed changes
 		ave_valley_difference += abs(step.data[0].acc_magn_lerped - step.data[last_index].acc_magn_lerped)
 =======
 	# calculate averages
@@ -131,9 +141,23 @@ func update_parameters() -> void:
 		var first = step.data[0]
 		var peak = step.data[step.peak_index]
 		var last = step.data[step.data.size() - 1]
+<<<<<<< Updated upstream
+=======
 		
 		ave_step_duration += last.recorded_time - first.recorded_time
 		
+		# rise (valley -> peak) and fall (peak -> valley), both positive
+		ave_peak_valley_difference += peak.acc_magn_lerped - first.acc_magn_lerped
+		ave_peak_valley_difference += peak.acc_magn_lerped - last.acc_magn_lerped
+		
+		ave_valley_difference += abs(first.acc_magn_lerped - last.acc_magn_lerped)
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+		
+		ave_step_duration += last.recorded_time - first.recorded_time
+		
+<<<<<<< Updated upstream
 		# rise (valley -> peak) and fall (peak -> valley), both positive
 		ave_peak_valley_difference += peak.acc_magn_lerped - first.acc_magn_lerped
 		ave_peak_valley_difference += peak.acc_magn_lerped - last.acc_magn_lerped
@@ -155,6 +179,9 @@ func update_parameters() -> void:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 >>>>>>> Stashed changes
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 		ave_time_between_peaks += step.peak_time - PedestrianDeadReckoning.steps_buffer[i - 1].peak_time
 		
 	ave_step_duration = ave_step_duration / PedestrianDeadReckoning.steps_buffer.size()
@@ -164,10 +191,15 @@ func update_parameters() -> void:
 	ave_falling_slope = ave_falling_slope / PedestrianDeadReckoning.steps_buffer.size()
 	ave_time_between_peaks = ave_time_between_peaks / PedestrianDeadReckoning.steps_buffer.size()
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 =======
 <<<<<<< Updated upstream
 =======
+>>>>>>> Stashed changes
+=======
+=======
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 		# FIX: skip the first step, steps[-1] would wrap to the newest step
 		# and cancel out every other interval
@@ -183,6 +215,9 @@ func update_parameters() -> void:
 	# FIX: there are only count - 1 intervals between peaks
 	ave_time_between_peaks /= (count - 1)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -209,8 +244,11 @@ func update_parameters() -> void:
 =======
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	StepDetection.settings.min_peak_valley_diff = ave_peak_valley_difference - (ave_peak_valley_difference * window_ratio)
 =======
+=======
+>>>>>>> Stashed changes
 	StepDetection.settings.min_time_between_peaks = ave_time_between_peaks * (1.0 - window_ratio)
 	
 	StepDetection.settings.min_peak_valley_diff = ave_peak_valley_difference * (1.0 - window_ratio)
@@ -270,9 +308,12 @@ func _enforce_bounds() -> void:
 	s.min_peak_valley_diff = maxf(s.min_peak_valley_diff, 0.0)
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
+<<<<<<< Updated upstream
 =======
 	StepDetection.settings.min_time_between_peaks = ave_time_between_peaks * (1.0 - window_ratio)
 	
 	StepDetection.settings.min_peak_valley_diff = ave_peak_valley_difference * (1.0 - window_ratio)
 >>>>>>> Stashed changes
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

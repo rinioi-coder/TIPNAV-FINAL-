@@ -4,27 +4,27 @@ extends Node
 # create validation settings
 var settings:Dictionary =  {
 	# max and min step duration (msec)
-	"max_step_duration":2000,
+	"max_step_duration":1000,
 	"min_step_duration":100,
 	
 	# max and min slope for rising and falling of data
-	"max_rising_slope":5,
-	"min_rising_slope":1,
-	"max_falling_slope":-5,
-	"min_falling_slope":-1,
+	"max_rising_slope":100,
+	"min_rising_slope":1.5,
+	"max_falling_slope":-100,
+	"min_falling_slope":-1.5,
 	
 	# max difference between neg and pos valley
-	"max_valley_diff":1.0,
+	"max_valley_diff":50,
 	
 	# min time between peaks (msec)
-	"min_time_between_peaks":0,
+	"min_time_between_peaks":50,
 	
 	# minimum difference between peak and valley
 	"min_peak_valley_diff":0,
 	
 	# min peak height
 	"min_peak_value":0,
-	"max_peak_value":10,
+	"max_peak_value":100,
 }
 
 # temporary peak data
@@ -35,9 +35,17 @@ var temp_peak_data:Dictionary = {
 	"length":null,
 	"heading":null,
 }
+# default settings
+var default_settings:Dictionary ={}
 
 # previous peak time
 var prev_peak_time:float = -INF
+
+# initialize
+func _ready() -> void:
+	
+	# store default settings
+	default_settings = settings.duplicate(true)
 
 # reset temporary data
 func reset_temp():
@@ -61,8 +69,8 @@ func find(buffer:Array):
 		# find neg valley
 		
 		# monitor movement
-		if (newest_data.acc_magn_lerped > second_data.acc_magn_lerped
-		and second_data.acc_magn_lerped <= third_data.acc_magn_lerped):
+		if (newest_data.acc_magn_smooth > second_data.acc_magn_smooth
+		and second_data.acc_magn_smooth <= third_data.acc_magn_smooth):
 			
 			# record neg valley
 			temp_peak_data.data.append(second_data.duplicate(true))
@@ -77,11 +85,11 @@ func find(buffer:Array):
 			return
 		
 		# monitor movement and check conditions
-		if (newest_data.acc_magn_lerped < second_data.acc_magn_lerped
-		and second_data.acc_magn_lerped > third_data.acc_magn_lerped
+		if (newest_data.acc_magn_smooth < second_data.acc_magn_smooth
+		and second_data.acc_magn_smooth > third_data.acc_magn_smooth
 		
 		# check condition
-		and second_data.acc_magn_lerped - temp_peak_data.data[0].acc_magn_lerped
+		and second_data.acc_magn_smooth - temp_peak_data.data[0].acc_magn_smooth
 		>= settings.min_peak_valley_diff
 		
 		# check condition
@@ -104,14 +112,14 @@ func find(buffer:Array):
 			return
 		
 		# monitor movement and check conditions
-		if (newest_data.acc_magn_lerped >= second_data.acc_magn_lerped
-		and second_data.acc_magn_lerped <= third_data.acc_magn_lerped
+		if (newest_data.acc_magn_smooth >= second_data.acc_magn_smooth
+		and second_data.acc_magn_smooth <= third_data.acc_magn_smooth
 		
 		# check condition
-		and abs(temp_peak_data.data[0].acc_magn_lerped - second_data.acc_magn_lerped) <= settings.max_valley_diff
+		and abs(temp_peak_data.data[0].acc_magn_smooth - second_data.acc_magn_smooth) <= settings.max_valley_diff
 		
 		# check condition
-		and temp_peak_data.data[temp_peak_data.peak_index].acc_magn_lerped - second_data.acc_magn_lerped
+		and temp_peak_data.data[temp_peak_data.peak_index].acc_magn_smooth - second_data.acc_magn_smooth
 		>= settings.min_peak_valley_diff):
 			
 			# record last data (positive valley)
@@ -125,8 +133,8 @@ func find(buffer:Array):
 				return
 			
 			# check condition
-			if (temp_peak_data.data[temp_peak_data.peak_index].acc_magn_lerped < settings.min_peak_value
-			or temp_peak_data.data[temp_peak_data.peak_index].acc_magn_lerped > settings.max_peak_value):
+			if (temp_peak_data.data[temp_peak_data.peak_index].acc_magn_smooth < settings.min_peak_value
+			or temp_peak_data.data[temp_peak_data.peak_index].acc_magn_smooth > settings.max_peak_value):
 				reset_temp()
 				return
 			
@@ -192,12 +200,12 @@ func calc_lin_regr(peak_data:Dictionary) -> Array:
 		# Negative valley to peak
 		if i <= peak_index:
 			ave_time_1 += sample.recorded_time
-			ave_acc_1 += sample.acc_magn_lerped
+			ave_acc_1 += sample.acc_magn_smooth
 		
 		# Peak to positive valley
 		if i >= peak_index:
 			ave_time_2 += sample.recorded_time
-			ave_acc_2 += sample.acc_magn_lerped
+			ave_acc_2 += sample.acc_magn_smooth
 	
 	# Divide by respective sample counts
 	ave_time_1 /= count_1
@@ -220,7 +228,7 @@ func calc_lin_regr(peak_data:Dictionary) -> Array:
 		# Negative valley to peak
 		if i <= peak_index:
 			var x1:float = (sample.recorded_time - ave_time_1) / 1000.0
-			var y1:float = sample.acc_magn_lerped - ave_acc_1
+			var y1:float = sample.acc_magn_smooth - ave_acc_1
 			
 			numerator_1 += x1 * y1
 			denominator_1 += x1 * x1
@@ -228,7 +236,7 @@ func calc_lin_regr(peak_data:Dictionary) -> Array:
 		# Peak to positive valley
 		if i >= peak_index:
 			var x2:float = (sample.recorded_time - ave_time_2) / 1000.0
-			var y2:float = sample.acc_magn_lerped - ave_acc_2
+			var y2:float = sample.acc_magn_smooth - ave_acc_2
 			
 			numerator_2 += x2 * y2
 			denominator_2 += x2 * x2
