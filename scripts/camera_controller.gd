@@ -4,6 +4,7 @@ extends Node3D
 @export var smoothing: float = 20.0
 @export var sensitivity: float = 0.05
 @export var mode: bool = false ## false = pan, true = rotate
+@export var focus: bool = false ## false = freecam, true = focus on user
 
 @export_group("Zoom")
 @export var min_distance: float = 3.0
@@ -41,24 +42,29 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
+		var was_pinching := _touches.size() >= 2
+		
 		if event.pressed:
 			_touches[event.index] = event.position
 		else:
 			_touches.erase(event.index)
-
+		
 		if _touches.size() >= 2:
 			_pinch_locked = true
 		elif _touches.is_empty():
 			_pinch_locked = false
-
-		# Kill any pending movement so nothing carries over between gestures
-		_drag_delta = Vector2.ZERO
-		_smoothed_delta = Vector2.ZERO
+		
+		# Only kill momentum when entering or leaving a pinch.
+		# A plain one-finger release keeps gliding via the smoothing.
+		if was_pinching or _touches.size() >= 2:
+			_drag_delta = Vector2.ZERO
+			_smoothed_delta = Vector2.ZERO
+		
 		_last_pinch_distance = _get_pinch_distance() if _touches.size() == 2 else 0.0
-
+	
 	elif event is InputEventScreenDrag:
 		_touches[event.index] = event.position
-
+		
 		if _touches.size() == 2:
 			_handle_pinch()
 		elif _touches.size() == 1 and not _pinch_locked:
@@ -66,7 +72,7 @@ func _input(event: InputEvent) -> void:
 
 	elif event is InputEventMagnifyGesture:
 		_zoom_by_factor(event.factor)
-
+	
 	elif event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			_zoom_by_factor(wheel_zoom_step)
@@ -77,10 +83,13 @@ func _input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	# Frame-rate independent smoothing
 	var t := 1.0 - exp(-smoothing * delta)
-
+	
 	_smoothed_delta = _smoothed_delta.lerp(_drag_delta * sensitivity, t)
 	_drag_delta = _drag_delta.lerp(Vector2.ZERO, t)
-
+	
+	if focus and is_instance_valid(%capsule):
+		position = %capsule.position
+	
 	if not mode:
 		# Camera-relative horizontal movement
 		var right := camera3d.global_basis.x
@@ -89,16 +98,16 @@ func _process(delta: float) -> void:
 		forward.y = 0.0
 		right = right.normalized()
 		forward = forward.normalized()
-
+		
 		var movement := right * -_smoothed_delta.x + forward * _smoothed_delta.y
 		position += movement * t
 	else:
 		rotation_degrees.y -= _smoothed_delta.x * 2.0 * t
 		rotation_degrees.x -= _smoothed_delta.y * 2.0 * t
-
+	
 	# Always clamp, regardless of mode
 	rotation_degrees.x = clampf(rotation_degrees.x, 10.0, 85.0)
-
+	
 	_update_zoom(delta)
 
 
