@@ -4,12 +4,15 @@ extends MeshInstance3D
 
 var points = []
 
+@export var TargetMesh:MeshInstance3D
 @export_tool_button("Generate Points","PinJoint3D") var generate:Callable = gen_points
 @export_tool_button("Delete Points","CurveDelete") var delete:Callable = delete_points
 
 
 func gen_points():
-	var faces_pos = get_faces_pos(self)
+	if not TargetMesh: return
+	
+	var faces_pos = get_faces_pos(TargetMesh)
 	
 	for pos in faces_pos:
 		var point = MeshInstance3D.new()

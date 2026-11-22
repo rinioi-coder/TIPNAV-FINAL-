@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cfkb8y1mpcos2"]
 
 [ext_resource type="Script" uid="uid://cqwiyn0puoqsf" path="res://pedestrian_dead_reckoning/temp_scripts/visualize_peaks.gd" id="1_ig7tw"]
-[ext_resource type="Texture2D" uid="uid://77t8ousum1k4" path="res://assets/grid.png" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://cpjc1dmo11tc5" path="res://pedestrian_dead_reckoning/temp_scripts/visualize_data.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://byhbxww5jolbj" path="res://pedestrian_dead_reckoning/temp_scripts/move_capsule.gd" id="4_1bvp3"]
 
@@ -16,16 +15,6 @@ sky_material = SubResource("ProceduralSkyMaterial_1bvp3")
 background_mode = 2
 sky = SubResource("Sky_lquwl")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_1vivr"]
-size = Vector2(100, 100)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v5gy4"]
-albedo_texture = ExtResource("2_0xm2m")
-uv1_triplanar = true
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_h2yge"]
-data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
-
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_a77ed"]
 
 [node name="Main" type="Node" unique_id=1649254548]
@@ -37,9 +26,8 @@ environment = SubResource("Environment_7mycd")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="VisualizePdrData" type="Node" parent="." unique_id=1102453593]
-
 [node name="Interface" type="Control" parent="." unique_id=862413060]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -88,15 +76,6 @@ script = ExtResource("2_h2yge")
 metadata/_edit_use_anchors_ = true
 
 [node name="World" type="Node3D" parent="." unique_id=2005778649]
-
-[node name="Base" type="StaticBody3D" parent="World" unique_id=351286196]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Base" unique_id=88356966]
-mesh = SubResource("PlaneMesh_1vivr")
-surface_material_override/0 = SubResource("StandardMaterial3D_v5gy4")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Base" unique_id=130665238]
-shape = SubResource("ConcavePolygonShape3D_h2yge")
 
 [node name="Capsule" type="MeshInstance3D" parent="World" unique_id=1330386046]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
