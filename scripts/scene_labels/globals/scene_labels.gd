@@ -21,15 +21,17 @@ func _ready() -> void:
 	
 	initialize()
 
-
 func initialize() -> void:
 	
 	# initialize buildings
 	for node in get_tree().get_nodes_in_group("Buildings"):
 		if node is Node3D:
 			var label = label_scene.instantiate()
-			label.get_node("button").text = node.name
 			label_container.add_child(label)
+			
+			var button = label.get_node("button")
+			button.text = node.name
+			button.pressed.connect(Callable(self, "_on_label_pressed").bind(node))
 			
 			labels.append({
 				"label": label,
@@ -40,14 +42,25 @@ func initialize() -> void:
 	for node in get_tree().get_nodes_in_group("Places"):
 		if node is Node3D:
 			var label = label_scene.instantiate()
-			label.get_node("button").text = node.name
 			label_container.add_child(label)
+			
+			var button = label.get_node("button")
+			button.text = node.name
+			button.pressed.connect(_on_label_pressed(node))
 			
 			labels.append({
 				"label": label,
 				"place": node
 			})
 
+# function called when a label button is pressed
+func _on_label_pressed(place:Node3D):
+	
+	# get place data
+	var data = PlaceManager.get_data(place.name)
+	print(data)
+	
+	if data == null: return
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(camera):
