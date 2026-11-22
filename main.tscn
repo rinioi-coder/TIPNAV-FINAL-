@@ -81,6 +81,13 @@ corner_radius_bottom_left = 96
 shadow_color = Color(0, 0, 0, 0.05882353)
 shadow_size = 20
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dm0k"]
+bg_color = Color(0.99607843, 0.99607843, 0.99607843, 1)
+corner_radius_bottom_right = 70
+corner_radius_bottom_left = 70
+shadow_color = Color(0, 0, 0, 0.05882353)
+shadow_size = 20
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vivmo"]
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 50
@@ -297,6 +304,39 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
+
+[node name="place_info" type="Panel" parent="Ui" unique_id=500592760]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0xm2m")
+
+[node name="images" type="Panel" parent="Ui/place_info" unique_id=2091042687]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+offset_bottom = -957.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7dm0k")
+
+[node name="back" type="Panel" parent="Ui/place_info" unique_id=731577849]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07361111
+anchor_top = 0.041875
+anchor_right = 0.23055555
+anchor_bottom = 0.107262686
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
+metadata/_edit_use_anchors_ = true
 
 [node name="categories" type="Panel" parent="Ui" unique_id=1296719192]
 visible = false
