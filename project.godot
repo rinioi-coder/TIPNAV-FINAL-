@@ -35,6 +35,10 @@ window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/minimize_html_build/plugin.cfg")
+
 [filesystem]
 
 import/blender/enabled=false
