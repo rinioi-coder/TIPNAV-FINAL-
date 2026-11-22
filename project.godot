@@ -25,6 +25,7 @@ StepLength="*uid://c5i5ycj18nq6x"
 AdaptiveDetectionParameters="*uid://df4dd3r7gpe2j"
 Magnetometer="*uid://c5p3x7u7ycv1m"
 StepHeading="*uid://u2apqf5847f1"
+PathManager="*uid://b2yphovic8qex"
 
 [display]
 
@@ -33,6 +34,10 @@ window/size/viewport_height=1600
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input_devices]
 
