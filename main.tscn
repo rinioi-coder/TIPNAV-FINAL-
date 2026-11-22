@@ -118,7 +118,7 @@ corner_radius_bottom_left = 70
 shadow_color = Color(0, 0, 0, 0.078431375)
 shadow_size = 20
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w48qg"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ig7tw"]
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -133,6 +133,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="home" type="Panel" parent="Ui" unique_id=1569250526]
@@ -306,6 +307,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
 [node name="place_info" type="Panel" parent="Ui" unique_id=500592760]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -532,13 +534,32 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ycdy4")
 
-[node name="active_tab" type="Panel" parent="Ui/tabs" unique_id=139944113]
+[node name="home" type="Button" parent="Ui/tabs" unique_id=392303997]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.05593333
 anchor_top = 0.184345
 anchor_right = 0.42666677
 anchor_bottom = 0.8090918
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_w48qg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ig7tw")
+metadata/_edit_use_anchors_ = true
+
+[node name="map" type="Button" parent="Ui/tabs" unique_id=1157420633]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05593333
+anchor_top = 0.184345
+anchor_right = 0.42666677
+anchor_bottom = 0.8090918
+theme_override_styles/normal = SubResource("StyleBoxFlat_ig7tw")
+metadata/_edit_use_anchors_ = true
+
+[node name="categories" type="Button" parent="Ui/tabs" unique_id=993440792]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05593333
+anchor_top = 0.184345
+anchor_right = 0.42666677
+anchor_bottom = 0.8090918
+theme_override_styles/normal = SubResource("StyleBoxFlat_ig7tw")
 metadata/_edit_use_anchors_ = true
