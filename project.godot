@@ -26,6 +26,7 @@ AdaptiveDetectionParameters="*uid://df4dd3r7gpe2j"
 Magnetometer="*uid://c5p3x7u7ycv1m"
 StepHeading="*uid://u2apqf5847f1"
 PathManager="*uid://b2yphovic8qex"
+SceneLabels="*uid://c21ena0y85oxm"
 
 [display]
 

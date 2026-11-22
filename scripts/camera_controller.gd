@@ -7,7 +7,7 @@ extends Node3D
 
 @export_group("Zoom")
 @export var min_distance: float = 3.0
-@export var max_distance: float = 60.0
+@export var max_distance: float = 100
 @export var zoom_smoothing: float = 12.0
 @export var wheel_zoom_step: float = 1.1 ## desktop testing
 
