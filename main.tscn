@@ -1,34 +1,86 @@
 [gd_scene format=3 uid="uid://cfkb8y1mpcos2"]
 
-[ext_resource type="Script" uid="uid://cpqurgojd8w6x" path="res://temp_scripts/label.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://cqwiyn0puoqsf" path="res://pedestrian_dead_reckoning/temp_scripts/visualize_peaks.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://cpjc1dmo11tc5" path="res://pedestrian_dead_reckoning/temp_scripts/visualize_data.gd" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://byhbxww5jolbj" path="res://pedestrian_dead_reckoning/temp_scripts/move_capsule.gd" id="4_1bvp3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1bvp3"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_lquwl"]
+sky_material = SubResource("ProceduralSkyMaterial_1bvp3")
+
+[sub_resource type="Environment" id="Environment_7mycd"]
+background_mode = 2
+sky = SubResource("Sky_lquwl")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a77ed"]
 
 [node name="Main" type="Node" unique_id=1649254548]
 
-[node name="Ui" type="Control" parent="." unique_id=1762042228]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1890749350]
+environment = SubResource("Environment_7mycd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=911275252]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Interface" type="Control" parent="." unique_id=862413060]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="container" type="Control" parent="Ui" unique_id=1580331145]
-anchors_preset = 0
-anchor_left = 0.09583333
-anchor_top = 0.180625
-anchor_right = 0.9305556
-anchor_bottom = 0.4925
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="Ui" unique_id=1131131604]
-layout_mode = 0
-anchor_left = 0.275
-anchor_top = 0.28125
-anchor_right = 0.7708333
-anchor_bottom = 0.350625
-theme_override_font_sizes/font_size = 30
-text = "test"
-horizontal_alignment = 1
-vertical_alignment = 1
 script = ExtResource("1_ig7tw")
 metadata/_edit_use_anchors_ = true
+
+[node name="PdrDataChartCombined" type="Panel" parent="Interface" unique_id=1303201726]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.0675
+anchor_right = 0.9513889
+anchor_bottom = 0.19500002
+offset_bottom = -3.0517578e-05
+metadata/_edit_use_anchors_ = true
+
+[node name="PdrDataChartLatestStep" type="Panel" parent="Interface" unique_id=1592293306]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.29305556
+anchor_top = 0.256875
+anchor_right = 0.73333335
+anchor_bottom = 0.384375
+offset_bottom = -3.0517578e-05
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Interface" unique_id=1492544367]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3125
+anchor_top = 0.44375
+anchor_right = 0.7138889
+anchor_bottom = 0.48875
+theme_override_font_sizes/font_size = 30
+text = "LOCAL TEST2"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+uppercase = true
+script = ExtResource("2_h2yge")
+metadata/_edit_use_anchors_ = true
+
+[node name="World" type="Node3D" parent="." unique_id=2005778649]
+
+[node name="Capsule" type="MeshInstance3D" parent="World" unique_id=1330386046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_a77ed")
+script = ExtResource("4_1bvp3")
+
+[node name="Camera3D" type="Camera3D" parent="World" unique_id=1201609321]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 11, 20, 0)
